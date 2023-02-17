@@ -12,7 +12,7 @@
     <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link id="pagestyle" href="{{ mix('css/reader/material-dashboard.css') }}" rel="stylesheet" />
-
+    <link href="{{ mix('css/reader/vue-multiselect.css') }}" rel="stylesheet" />
 </head>
 <body class="g-sidenav-show  bg-gray-200">
     @if (Auth::check())

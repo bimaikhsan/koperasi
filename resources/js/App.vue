@@ -262,13 +262,13 @@
 
   </main>
   <div class="fixed-plugin" v-if="isLoggedIn">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+    <!-- <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
       <i class="material-icons py-2">settings</i>
-    </a>
+    </a> -->
     <div class="card shadow-lg">
       <div class="card-header pb-0 pt-3">
         <div class="float-start">
-          <h5 class="mt-3 mb-0">Material UI Configurator</h5>
+          <h5 class="mt-3 mb-0">Configurator</h5>
           <p>See our dashboard options.</p>
         </div>
         <div class="float-end mt-4">
@@ -320,7 +320,7 @@
           </div>
         </div>
         <hr class="horizontal dark my-sm-4">
-        <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
+        <!-- <a class="btn bg-gradient-info w-100" href="https://www.creative-tim.com/product/material-dashboard-pro">Free Download</a>
         <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/overview/material-dashboard">View documentation</a>
         <div class="w-100 text-center">
           <a class="github-button" href="https://github.com/creativetimofficial/material-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/material-dashboard on GitHub">Star</a>
@@ -331,7 +331,7 @@
           <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/material-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
             <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
           </a>
-        </div>
+        </div> -->
       </div>
     </div>
   </div>

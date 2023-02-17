@@ -8,18 +8,19 @@ import Dashboard from '../pages/Dashboard';
 import Posts from '../components/Posts';
 import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
+import LihatPost from '../components/LihatPost';
 
 export const routes = [
-    {
-        name: 'home',
-        path: '/',
-        component: Login
-    },
-    {
-        name: 'register',
-        path: '/register',
-        component: Register
-    },
+    // {
+    //     name: 'home',
+    //     path: '/',
+    //     component: Login
+    // },
+    // {
+    //     name: 'register',
+    //     path: '/register',
+    //     component: Register
+    // },
     {
         name: 'login',
         path: '/login',
@@ -44,6 +45,11 @@ export const routes = [
         name: 'editpost',
         path: '/posts/edit/:id',
         component: EditPost
+    },
+    {
+        name: 'lihatpost',
+        path: '/posts/lihat/:id',
+        component: LihatPost
     }
 ];
 

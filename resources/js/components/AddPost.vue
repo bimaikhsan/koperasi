@@ -149,7 +149,7 @@ export default{
                 })
                 .then(response => {
                     if (response.data.success) {
-                        this.$router.push({name : 'posts'})
+                        this.$router.push({name : 'dashboard'})
                         // window.location.href = "/posts"
                     } else {
                         this.error = response.data.message

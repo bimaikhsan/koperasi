@@ -131,4 +131,13 @@ class PostsController extends Controller
             'data'    => $query
         ]);
     }
+    public function selectname($nama)
+    {
+        $data = [];
+        $posts = Buku_besar_umum::distinct()->get([$nama]);
+        foreach ($posts as $key => $value) {
+            $data[] = $value[$nama];
+        }
+        return $data;
+    }
 }

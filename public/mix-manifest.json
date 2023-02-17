@@ -3,6 +3,7 @@
     "/css/app.css": "/css/app.css",
     "/css/nucleo-icons.css": "/css/nucleo-icons.css",
     "/css/reader/material-dashboard.css": "/css/reader/material-dashboard.css",
+    "/css/reader/vue-multiselect.css": "/css/reader/vue-multiselect.css",
     "/js/bootstrap.js": "/js/bootstrap.js",
     "/js/pooper.js": "/js/pooper.js",
     "/js/perfect-scrollbar.js": "/js/perfect-scrollbar.js",

@@ -60,13 +60,31 @@
                             <div class="inpute- mb-3">
                                 <label>Nomor Bukti</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="nomor_bukti" type="text" class="form-control" v-model="nomor_bukti" placeholder="Masukkan Nomor Bukti">
+                                    <VueMultiselect
+                                    placeholder="Masukan Nomor Bukti"
+                                    v-model="nomor_bukti"
+                                    :options="optionsbukti"
+                                    mode="tags">
+                                        <template #noResult>
+                                        tidak ada data Nomor Bukti
+                                        </template>
+                                    </VueMultiselect>
+                                    <!-- <input id="nomor_bukti" type="text" class="form-control" v-model="nomor_bukti" placeholder="Masukkan Nomor Bukti"> -->
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
                                 <label>Nomor Rekening</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="nomor_rekening" type="text" class="form-control" v-model="nomor_rekening" placeholder="Masukkan Nomor Rekening">
+                                    <VueMultiselect
+                                    placeholder="Masukan Nomor Rekening"
+                                    v-model="nomor_rekening"
+                                    :options="optionsrekening"
+                                    mode="tags">
+                                        <template #noResult>
+                                        tidak ada data Nomor Rekening
+                                        </template>
+                                    </VueMultiselect>
+                                    <!-- <input id="nomor_rekening" type="text" class="form-control" v-model="nomor_rekening" placeholder="Masukkan Nomor Rekening"> -->
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mt-4 mb-4"> Cari</button>
@@ -100,8 +118,9 @@
                                     <td>{{post.nomor_bukti}}</td>
                                     <td>{{post.nomor_rekening}}</td>
                                     <td class="text-center">
-                                        <router-link :to="{name:'editpost', params: {id:post.id}}" class="btn btn-warning">Edit</router-link>
-                                        <button class="btn btn-danger" @click="deletePost(post.id)">Delete</button>
+                                        <router-link :to="{name:'lihatpost', params: {id:post.id}}" class="btn btn-primary btn-sm"><i class="material-icons opacity-24">visibility</i></router-link> &nbsp
+                                        <router-link :to="{name:'editpost', params: {id:post.id}}" class="btn btn-warning btn-sm"><i class="material-icons opacity-24">edit</i></router-link> &nbsp
+                                        <button class="btn btn-danger btn-sm" @click="deletePost(post.id)"><i class="material-icons opacity-24">delete</i></button>
                                     </td>
                                 </tr>
                             </tbody>
@@ -116,30 +135,47 @@
 </template>
 
 <script>
-
+    import VueMultiselect from 'vue-multiselect'
     export default {
         data() {
             return {
                 loggedIn: localStorage.getItem('loggedIn'),
                 token: localStorage.getItem('token'),
                 posts: [],
+                tanggal : '',
+                nomor_bukti : '',
+                nomor_rekening : '',
+                selected: null,
+                optionsbukti:[],
+                optionsrekening:[],
+                // options: ['list', 'of', 'options'],
                 strSuccess: '',
                 strError: ''
             }
         }
         ,
-        // created() {
-        //     this.$axios.get('/sanctum/csrf-cookie').then(response => {
-        //         this.$axios.get('/api/posts')
-        //         .then(response => {
-
-        //             this.posts = response.data;
-        //         })
-        //         .catch(function(error) {
-        //             console.log(error);
-        //         });
-        //     });
-        // },
+        created() {
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.get('api/posts/selectnama/nomor_bukti')
+                .then(response => {
+                    // console.log(response.data);
+                    this.optionsbukti = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            });
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.get('api/posts/selectnama/nomor_rekening')
+                .then(response => {
+                    // console.log(response.data);
+                    this.optionsrekening = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            });
+        },
         methods: {
             cariPost(e) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
@@ -158,7 +194,7 @@
                         // window.location.href = "/posts"
                         const element = document.getElementById("hasilpencarian");
                         element.scrollIntoView();
-                        console.log(response.data.data);
+                        // console.log(response.data.data);
                         this.posts = response.data.data;
                     } else {
 
@@ -193,6 +229,9 @@
                     }
                 });
             }
+        },
+        components: {
+            VueMultiselect
         },
         mounted() {
             if(!this.loggedIn) {

@@ -22,6 +22,7 @@ mix.combine([
 ], 'public/css/nucleo-icons.css');
 
 mix.combine('public/css/material-dashboard.css', 'public/css/reader/material-dashboard.css');
+mix.combine('public/css/vue-multiselect.css', 'public/css/reader/vue-multiselect.css');
 
 mix.combine('public/js/core/bootstrap.min.js', 'public/js/bootstrap.js');
 mix.combine('public/js/core/popper.min.js', 'public/js/pooper.js');
