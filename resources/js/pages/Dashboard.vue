@@ -127,7 +127,7 @@ export default {
     },
     mounted() {
         if(!this.loggedIn) {
-            window.location.href = "/";
+            window.location.href = "/login";
 
         }
     }
