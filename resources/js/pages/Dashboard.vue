@@ -1,4 +1,8 @@
 <template>
+    <loading v-model:active="isLoading"
+                 :can-cancel="true"
+                 :opacity="100"
+                 :is-full-page="fullPage"/>
     <div class="container-fluid py-4">
     <div class="row">
         <div class="col-12">
@@ -45,13 +49,30 @@
 </template>
 
 <script>
+import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/css/index.css';
+
 export default {
     name: "Dashboard",
+    components: {
+        Loading
+    },
+    mounted() {
+        if(!this.loggedIn) {
+            this.isLoading = true
+            setTimeout(() => {
+                this.isLoading = false
+            }, 1000)
+            window.location.href = "/login";
+        }
+    },
     data() {
         return {
             loggedIn: localStorage.getItem('loggedIn'),
             token: localStorage.getItem('token'),
             posts: [],
+            isLoading: false,
+                fullPage: true,
             strSuccess: '',
             strError: ''
         }
@@ -123,12 +144,6 @@ export default {
                     });
                 }
             });
-        }
-    },
-    mounted() {
-        if(!this.loggedIn) {
-            window.location.href = "/login";
-
         }
     }
     // beforeRouteEnter(to, from, next) {
