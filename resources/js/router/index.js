@@ -11,11 +11,11 @@ import AddPost from '../components/AddPost';
 import LihatPost from '../components/LihatPost';
 
 export const routes = [
-    // {
-    //     name: 'home',
-    //     path: '/',
-    //     component: Login
-    // },
+    {
+        name: 'home',
+        path: '/',
+        component: Dashboard
+    },
     // {
     //     name: 'register',
     //     path: '/register',
@@ -26,11 +26,11 @@ export const routes = [
         path: '/login',
         component: Login
     },
-    {
-        name: 'dashboard',
-        path: '/dashboard',
-        component: Dashboard
-    },
+    // {
+    //     name: 'dashboard',
+    //     path: '/dashboard',
+    //     component: Dashboard
+    // },
     {
         name: 'posts',
         path: '/posts',

@@ -128,7 +128,7 @@
                                 localStorage.setItem("loggedIn", "true")
                                 localStorage.setItem("token", response.data.token)
                                 this.loggedIn = true
-                                this.$router.go('/dashboard')
+                                this.$router.go('/')
 
 
                             } else {
@@ -149,7 +149,7 @@
         },
         mounted() {
             if(this.loggedIn) {
-                return window.location.href = "/dashboard";
+                return window.location.href = "/";
             }
 
         }
