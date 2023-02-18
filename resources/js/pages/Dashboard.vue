@@ -20,10 +20,10 @@
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">no</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nomor Bukti</th>
-                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nomor Rekening</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Uraian</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Debet</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">kredit</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Saldo</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Aksi</th>
                                 </tr>
                             </thead>
@@ -32,7 +32,6 @@
                                     <td class="text-center">{{index+1}}.</td>
                                     <td class="text-center">{{post.tanggal}}</td>
                                     <td class="text-center">{{post.nomor_bukti}}</td>
-                                    <td class="text-center">{{post.nomor_rekening}}</td>
                                     <td class="text-left">
                                         {{post.uraian}}
                                         <ul>
@@ -53,6 +52,15 @@
                                             <li v-for="(url, index) in JSON.parse(post.data)" :key="index">
                                                 <label v-if="JSON.parse(JSON.stringify(url)).kredit == null">0</label>
                                                 <label v-if="JSON.parse(JSON.stringify(url)).kredit != null">{{ JSON.parse(JSON.stringify(url)).kredit }}</label>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="text-right">
+                                        <ul style="list-style:none;margin-top: 27px;">
+                                            <li v-for="(url, index) in JSON.parse(post.data)" :key="index">
+                                                <label v-if="JSON.parse(JSON.stringify(url)).kredit == null">0</label>
+                                                <label v-if="JSON.parse(JSON.stringify(url)).kredit != null">{{ JSON.parse(JSON.stringify(url)).saldo }}</label>
 
                                             </li>
                                         </ul>
@@ -128,7 +136,6 @@ export default {
                     nama : this.nama,
                     tanggal : this.tanggal,
                     nomor_bukti : this.nomor_bukti,
-                    nomor_rekening : this.nomor_rekening,
                     debit:this.debit,
                     kredit:this.kredit,
                     saldo:this.saldo

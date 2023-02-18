@@ -10,6 +10,10 @@ class Uraian extends Model
     use HasFactory;
     protected $table = "uraian";
     protected $fillable = [
-        'nama',
+        'nomor_akun',
+        'nama_akun',
+        'debit',
+        'kredit',
+        'saldo',
     ];
 }

@@ -5,13 +5,13 @@ import Home from '../pages/Home';
 import Register from '../pages/Register';
 import Login from '../pages/Login';
 import Dashboard from '../pages/Dashboard';
-import Posts from '../components/Posts';
-import EditPost from '../components/EditPost';
-import AddPost from '../components/AddPost';
-import LihatPost from '../components/LihatPost';
-import Uraian from '../components/Uraian';
-import AddUraian from '../components/AddUraian';
-import EditUraian from '../components/EditUraian';
+import Posts from '../components/jurnal/Posts';
+import EditPost from '../components/jurnal/EditPost';
+import AddPost from '../components/jurnal/AddPost';
+import LihatPost from '../components/jurnal/LihatPost';
+import Uraian from '../components/uraian/Uraian';
+import AddUraian from '../components/uraian/AddUraian';
+import EditUraian from '../components/uraian/EditUraian';
 
 export const routes = [
     {

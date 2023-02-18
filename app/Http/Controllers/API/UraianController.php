@@ -18,7 +18,11 @@ class UraianController extends Controller
     public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
+            'nomor_akun' => 'required',
+            'nama_akun' => 'required',
+            'debit' => 'required',
+            'kredit' => 'required',
+            'saldo' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -26,7 +30,11 @@ class UraianController extends Controller
         }
 
         $user = Uraian::create([
-            'nama' => $request->nama,
+            'nomor_akun' => $request->nomor_akun,
+            'nama_akun' => $request->nama_akun,
+            'debit' => $request->debit,
+            'kredit' => $request->kredit,
+            'saldo' => $request->saldo,
         ]);
 
         return response()->json([
@@ -45,7 +53,11 @@ class UraianController extends Controller
     {
         $post = Uraian::find($id);
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
+            'nomor_akun' => 'required',
+            'nama_akun' => 'required',
+            'debit' => 'required',
+            'kredit' => 'required',
+            'saldo' => 'required',
         ]);
 
         $input = $request->all();
@@ -64,12 +76,12 @@ class UraianController extends Controller
         return response()->json(['success'=> 'Post deleted successfully']);
 
     }
-    public function selectname($nama)
+    public function selectname()
     {
         $data = [];
-        $posts = Uraian::distinct()->get([$nama]);
+        $posts = Uraian::distinct()->get();
         foreach ($posts as $key => $value) {
-            $data[] = $value[$nama];
+            $data[] = $value['nomor_akun']."-".$value['nama_akun'];
         }
         return response()->json($data);
     }

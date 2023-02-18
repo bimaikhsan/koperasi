@@ -43,6 +43,6 @@ Route::group(['prefix' => 'uraian'], function() {
     Route::post('update/{id}', [UraianController::class,'update']);
     Route::get('edit/{id}', [UraianController::class,'edit']);
     Route::delete('delete/{id}', [UraianController::class,'delete']);
-    Route::get('selectnama/{nama}', [UraianController::class,'selectname']);
+    Route::get('selectnama', [UraianController::class,'selectname']);
 
 });

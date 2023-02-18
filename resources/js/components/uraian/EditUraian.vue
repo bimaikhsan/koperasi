@@ -18,11 +18,35 @@
                         <form @submit.prevent="updatePost" enctype="multipart/form-data">
 
                             <div class="inpute- mb-3">
-                                <label>Nama</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="nama" type="text" class="form-control" v-model="nama" placeholder="Masukkan Nama">
+                                    <label>Nomor Akun</label><span class="text-danger"> *</span>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="nomor_akun" type="text" class="form-control" v-model="nomor_akun" placeholder="Masukkan Nomor Akun">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="inpute- mb-3">
+                                    <label>Nama Akun</label><span class="text-danger"> *</span>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="nama_akun" type="text" class="form-control" v-model="nama_akun" placeholder="Masukkan Nama Akun">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Debit</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="debit" type="number" class="form-control" v-model="debit" placeholder="Masukkan Debit">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Kredit</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="kredit" type="number" class="form-control" v-model="kredit" placeholder="Masukkan Kredit">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Saldo</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="saldo" type="number" class="form-control" v-model="saldo" placeholder="Masukkan Saldo">
+                                    </div>
+                                </div>
                             <button type="submit" class="btn btn-primary mt-4 mb-4"> Update</button>
                         </form>
                     </div>
@@ -38,7 +62,11 @@ export default{
         return {
             loggedIn: localStorage.getItem('loggedIn'),
             token: localStorage.getItem('token'),
-            nama : '',
+            nomor_akun : '',
+            nama_akun : '',
+            debit : 0,
+            kredit : 0,
+            saldo : 0,
             error: null
         }
     },
@@ -47,7 +75,11 @@ export default{
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
             this.$axios.get(`/api/uraian/edit/${this.$route.params.id}`)
             .then(response => {
-                this.nama = response.data['nama'];
+                this.nomor_akun = response.data['nomor_akun'];
+                this.nama_akun = response.data['nama_akun'];
+                this.debit = response.data['debit'];
+                this.kredit = response.data['kredit'];
+                this.saldo = response.data['saldo'];
             })
             .catch(function(error) {
                 console.log(error);
@@ -65,7 +97,11 @@ export default{
                 }
 
                 const formData = new FormData();
-                formData.append('nama', this.nama);
+                formData.append('nomor_akun', this.nomor_akun);
+                formData.append('nama_akun', this.nama_akun);
+                formData.append('debit', this.debit);
+                formData.append('kredit', this.kredit);
+                formData.append('saldo', this.saldo);
 
                 this.$axios.post(`/api/uraian/update/${this.$route.params.id}`, formData, config)
                 .then(response => {

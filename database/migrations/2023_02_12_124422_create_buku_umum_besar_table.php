@@ -19,7 +19,6 @@ class CreateBukuUmumBesarTable extends Migration
             $table->json('data')->nullable();
             $table->date('tanggal');
             $table->char('nomor_bukti', 100);
-            $table->char('nomor_rekening', 100);
             $table->timestamps();
         });
     }

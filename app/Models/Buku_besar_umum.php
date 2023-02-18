@@ -13,7 +13,6 @@ class Buku_besar_umum extends Model
         'uraian',
         'tanggal',
         'nomor_bukti',
-        'nomor_rekening',
         'data',
     ];
 }

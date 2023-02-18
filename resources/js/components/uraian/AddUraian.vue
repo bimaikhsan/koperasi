@@ -17,12 +17,36 @@
                         <div class="card-body ">
                             <form @submit.prevent="addPost">
                                 <div class="inpute- mb-3">
-                                    <label>Nama Uraian</label><span class="text-danger"> *</span>
+                                    <label>Nomor Akun</label><span class="text-danger"> *</span>
                                     <div class="input-group input-group-outline mb-3">
-                                        <input id="nama" type="text" class="form-control" v-model="nama" placeholder="Masukkan Nama Uraian">
+                                        <input id="nomor_akun" type="text" class="form-control" v-model="nomor_akun" placeholder="Masukkan Nomor Akun">
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-4 mb-4"> Add Post</button>
+                                <div class="inpute- mb-3">
+                                    <label>Nama Akun</label><span class="text-danger"> *</span>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="nama_akun" type="text" class="form-control" v-model="nama_akun" placeholder="Masukkan Nama Akun">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Debit</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="debit" type="number" class="form-control" v-model="debit" placeholder="Masukkan Debit">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Kredit</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="kredit" type="number" class="form-control" v-model="kredit" placeholder="Masukkan Kredit">
+                                    </div>
+                                </div>
+                                <div class="inpute- mb-3">
+                                    <label>Saldo</label>
+                                    <div class="input-group input-group-outline mb-3">
+                                        <input id="saldo" type="number" class="form-control" v-model="saldo" placeholder="Masukkan Saldo">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-4 mb-4"> Tambah Akun</button>
                             </form>
                         </div>
                     </div>
@@ -40,7 +64,11 @@
             return {
                 loggedIn: localStorage.getItem('loggedIn'),
                 token: localStorage.getItem('token'),
-                nama : '',
+                nomor_akun : '',
+                nama_akun : '',
+                debit : 0,
+                kredit : 0,
+                saldo : 0,
                 error: null,
             }
         },
@@ -48,7 +76,11 @@
             addPost(e) {
                 this.$axios.get('/sanctum/csrf-cookie').then(response => {
                     this.$axios.post('/api/uraian/add', {
-                        nama : this.nama,
+                        nomor_akun : this.nomor_akun,
+                        nama_akun : this.nama_akun,
+                        debit : this.debit,
+                        kredit : this.kredit,
+                        saldo : this.saldo,
                     })
                     .then(response => {
                         if (response.data.success) {

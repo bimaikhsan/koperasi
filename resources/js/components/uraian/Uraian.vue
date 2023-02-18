@@ -18,14 +18,20 @@
                             <thead>
                                 <tr>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">no</th>
-                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nama</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nama Akun</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Debet</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Kredit</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Saldo</th>
                                     <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(post, index) in posts" :key="post.id">
                                     <td class="text-center">{{index+1}}.</td>
-                                    <td class="text-center">{{post.nama}}</td>
+                                    <td class="text-center">{{post.nomor_akun}} - {{post.nama_akun}}</td>
+                                    <td class="text-center">{{post.debit}}</td>
+                                    <td class="text-center">{{post.kredit}}</td>
+                                    <td class="text-center">{{post.saldo}}</td>
                                     <td class="text-center">
                                         <router-link :to="{name:'edituraian', params: {id:post.id}}" class="btn btn-warning btn-sm"><i class="material-icons opacity-24">edit</i></router-link> &nbsp
                                         <button class="btn btn-danger btn-sm" @click="deletePost(post.id)"><i class="material-icons opacity-24">delete</i></button>

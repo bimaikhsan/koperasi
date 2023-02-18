@@ -1,9 +1,9 @@
 <template>
-<!--
-    <div class="card">
+
+    <!-- <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between pb-2 mb-2">
-                <h5 class="card-title">Add New Post Data</h5>
+                <h5 class="card-title">Update Post Data</h5>
                 <div>
                     <router-link :to="{name: 'posts'}" class="btn btn-success">Go Back</router-link>
                 </div>
@@ -20,14 +20,14 @@
             </div>
 
 
-            <form @submit.prevent="addPost" enctype="multipart/form-data">
+            <form @submit.prevent="updatePost" enctype="multipart/form-data">
                 <div class="form-group mb-2">
                     <label>Name</label><span class="text-danger"> *</span>
                     <input type="text" class="form-control" v-model="name" placeholder="Enter post name">
                 </div>
 
                 <div class="form-group mb-2">
-                    <label>Name</label><span class="text-danger"> *</span>
+                    <label>Description</label><span class="text-danger"> *</span>
                    <textarea class="form-control" rows="3" v-model="description" placeholder="Enter post description"></textarea>
                 </div>
 
@@ -40,7 +40,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn btn-primary mt-4 mb-4"> Add Post</button>
+                <button type="submit" class="btn btn-primary mt-4 mb-4"> Update Post</button>
 
             </form>
 
@@ -58,21 +58,15 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Input Transaksi Jurnal Umum</h6>
+                            <h6 class="text-white text-capitalize ps-3">Edit Data : {{ nomor_rekening }}</h6>
                         </div>
                     </div>
                     <div class="card-body ">
-                        <form @submit.prevent="addPost">
+                        <form @submit.prevent="updatePost" enctype="multipart/form-data">
                             <div class="inpute- mb-3">
                                 <label>Nomor Bukti</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
                                     <input id="nomor_bukti" type="text" class="form-control" v-model="nomor_bukti" placeholder="Masukkan Nomor Bukti">
-                                </div>
-                            </div>
-                            <div class="inpute- mb-3">
-                                <label>Nomor Rekening</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="nomor_rekening" type="text" class="form-control" v-model="nomor_rekening" placeholder="Masukkan Nomor Rekening">
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
@@ -87,15 +81,15 @@
                                     <input id="uraian" type="text" class="form-control" v-model="uraian" placeholder="Masukkan Uraian">
                                 </div>
                             </div>
-                            <button
+                            <!-- <button
                                 type="button"
                                 class="btn btn-success rounded-md border px-3 py-2 bg-pink-600 text-white"
                                 @click="addMore()"
                             >
-                            <i class="material-icons opacity-10">add</i> Tambah Rincian
-                            </button>
+                                Tambah Rincian
+                            </button> -->
                             <div v-for="(data, index) in datauraian" :key="index">
-                                <div class="row">
+                                <div class="row" style="margin-top:-20px;">
                                     <div class="col p-3">
                                         <div class="inpute- mb-3">
                                             <label>Nama Uraian</label><span class="text-danger"> *</span>
@@ -112,6 +106,8 @@
                                                 </div>
                                             </div>
                                     </div>
+                                </div>
+                                <div class="row" style="margin-top:-40px;">
                                     <div class="col p-3">
                                         <div class="inpute- mb-3">
                                             <label>Debet</label>
@@ -127,7 +123,7 @@
                                     </div>
                                     <div class="col p-3">
                                         <div class="inpute- mb-3">
-                                            <label>Debet</label>
+                                            <label>Kredit</label>
                                             <div class="input-group input-group-outline mb-3">
                                                 <input
                                                     type="number"
@@ -141,38 +137,33 @@
                                     </div>
                                     <div class="col p-3">
                                         <div class="inpute- mb-3">
+                                            <label>Saldo</label>
                                             <div class="input-group input-group-outline mb-3">
-                                                <button
-                                                    style="margin-top:32px"
-                                                    type="button"
-                                                    class="rounded-md btn btn-danger border text-white"
-                                                    @click="remove(index)"
-                                                    v-show="index != 0"
-                                                >
-                                                    <i class="material-icons opacity-10">close</i>
-                                                    Remove
-                                                </button>
+                                                <input
+                                                    type="number"
+                                                    v-model="data.saldo"
+                                                    placeholder="Masukkan Saldo"
+                                                    class="form-control"
+
+                                                />
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 mb-4"><i class="material-icons opacity-10">save</i> Simpan Transaksi Jurnal Umum</button>
+                            <button type="submit" class="btn btn-primary mt-4 mb-4"> Update</button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
 
 <script>
-
 import VueMultiselect from 'vue-multiselect'
 
 export default{
-    name: "AddPost",
     data() {
         return {
             loggedIn: localStorage.getItem('loggedIn'),
@@ -180,25 +171,41 @@ export default{
             uraian : '',
             tanggal:'',
             nomor_bukti:'',
-            nomor_rekening:'',
             debit:0,
             kredit:0,
             error: null,
             datauraian: [
                 {
                 nama: "",
-                debet: "",
-                kredit: "",
+                debet: 0,
+                kredit: 0,
+                saldo: 0,
                 },
             ],
             selected: null,
             optionsuraian : []
-
         }
     },
+
+    components: {
+            VueMultiselect
+        },
     created() {
-            this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.get('/api/uraian/selectnama/nama')
+        this.$axios.get('/sanctum/csrf-cookie').then(response => {
+            this.$axios.get(`/api/posts/edit/${this.$route.params.id}`)
+            .then(response => {
+                this.uraian = response.data['uraian'];
+                this.tanggal = response.data['tanggal'];
+                this.nomor_bukti = response.data['nomor_bukti'];
+                this.datauraian = JSON.parse(response.data['data']);
+
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+        });
+        this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.get('/api/uraian/selectnama')
                 .then(response => {
                     this.optionsuraian = response.data;
                 })
@@ -206,50 +213,55 @@ export default{
                     console.log(error);
                 });
             });
-
-        },
+    },
     methods: {
-        addPost(e) {
+        // onChange(e) {
+        //     this.img = e.target.files[0];
+        //     let reader = new FileReader();
+        //     reader.addEventListener("load", function () {
+        //         this.imgPreview = reader.result;
+        //     }.bind(this), false);
+
+        //     if (this.img) {
+        //         if ( /\.(jpe?g|png|gif)$/i.test( this.img.name ) ) {
+        //             reader.readAsDataURL( this.img );
+        //         }
+        //     }
+        // },
+        updatePost(e) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
-                this.$axios.post('/api/posts/add', {
-                    uraian : this.uraian,
-                    tanggal : this.tanggal,
-                    nomor_bukti : this.nomor_bukti,
-                    nomor_rekening : this.nomor_rekening,
-                    data:this.datauraian,
-                })
+                let existingObj = this;
+                const config = {
+                    headers: {
+                        'content-type': 'multipart/form-data'
+                    }
+                }
+
+                const formData = new FormData();
+                formData.append('tanggal', this.tanggal);
+                formData.append('nomor_bukti', this.nomor_bukti);
+                formData.append('uraian', this.uraian);
+                formData.append('data', JSON.stringify(this.datauraian));
+
+                this.$axios.post(`/api/posts/update/${this.$route.params.id}`, formData, config)
                 .then(response => {
                     if (response.data.success) {
+                        // console.log(response.data);
                         this.$router.push({name : 'home'})
                         // window.location.href = "/posts"
                     } else {
                         this.error = response.data.message
-                        document.querySelector('.alert').style.display = 'block'
+                        // document.querySelector('.alert').style.display = 'block'
                     }
                 })
                 .catch(function(error) {
                     // existingObj.strSuccess ="";
-                    this.error = response.data.message
-
                     // existingObj.strError = error.response.data.message;
                 });
             });
-        },
-        addMore() {
-        this.datauraian.push({
-            nama: "",
-            debet: "",
-            kredit: "",
-        });
-        },
-        remove(index) {
-        this.datauraian.splice(index, 1);
-        },
+        }
 
     },
-        components: {
-            VueMultiselect
-        },
         mounted() {
             if(!this.loggedIn) {
                 window.location.href = "/";

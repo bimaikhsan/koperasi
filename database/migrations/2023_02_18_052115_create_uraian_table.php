@@ -15,7 +15,11 @@ class CreateUraianTable extends Migration
     {
         Schema::create('uraian', function (Blueprint $table) {
             $table->id();
-            $table->char('nama', 100);
+            $table->char('nomor_akun', 100);
+            $table->char('nama_akun', 100);
+            $table->char('debit', 100);
+            $table->char('kredit', 100);
+            $table->char('saldo', 100);
             $table->timestamps();
         });
     }
