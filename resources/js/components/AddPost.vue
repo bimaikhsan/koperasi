@@ -58,24 +58,11 @@
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                         <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-white text-capitalize ps-3">Tambah Data Buku Besar</h6>
+                            <h6 class="text-white text-capitalize ps-3">Input Transaksi Jurnal Umum</h6>
                         </div>
                     </div>
                     <div class="card-body ">
                         <form @submit.prevent="addPost">
-
-                            <div class="inpute- mb-3">
-                                <label>Nama</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="nama" type="text" class="form-control" v-model="nama" placeholder="Masukkan Nama">
-                                </div>
-                            </div>
-                            <div class="inpute- mb-3">
-                                <label>Tanggal</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="tanggal" type="date" class="form-control" v-model="tanggal">
-                                </div>
-                            </div>
                             <div class="inpute- mb-3">
                                 <label>Nomor Bukti</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
@@ -89,24 +76,88 @@
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
-                                <label>Debit</label>
+                                <label>Tanggal</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="debit" type="number" min="0" class="form-control" v-model="debit" placeholder="Masukkan Debit">
+                                    <input id="tanggal" type="date" class="form-control" v-model="tanggal">
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
-                                <label>Kredit</label>
+                                <label>Uraian</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="kredit" type="number" min="0" class="form-control" v-model="kredit" placeholder="Masukkan Kredit">
+                                    <input id="uraian" type="text" class="form-control" v-model="uraian" placeholder="Masukkan Uraian">
                                 </div>
                             </div>
-                            <div class="inpute- mb-3">
-                                <label>Saldo</label>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="saldo" type="number" min="0" class="form-control" v-model="saldo" placeholder="Masukkan Saldo">
+                            <button
+                                type="button"
+                                class="btn btn-success rounded-md border px-3 py-2 bg-pink-600 text-white"
+                                @click="addMore()"
+                            >
+                            <i class="material-icons opacity-10">add</i> Tambah Rincian
+                            </button>
+                            <div v-for="(data, index) in datauraian" :key="index">
+                                <div class="row">
+                                    <div class="col p-3">
+                                        <div class="inpute- mb-3">
+                                            <label>Nama Uraian</label><span class="text-danger"> *</span>
+                                                <div class="input-group input-group-outline mb-3">
+                                                    <VueMultiselect
+                                                    placeholder="Masukan Nama Uraian"
+                                                    v-model="data.nama"
+                                                    :options="optionsuraian"
+                                                    mode="tags">
+                                                        <template #noResult>
+                                                        tidak ada data Uraian
+                                                        </template>
+                                                    </VueMultiselect>
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <div class="col p-3">
+                                        <div class="inpute- mb-3">
+                                            <label>Debet</label>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <input
+                                                    type="number"
+                                                    v-model="data.debet"
+                                                    placeholder="Masukkan Debet"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col p-3">
+                                        <div class="inpute- mb-3">
+                                            <label>Debet</label>
+                                            <div class="input-group input-group-outline mb-3">
+                                                <input
+                                                    type="number"
+                                                    v-model="data.kredit"
+                                                    placeholder="Masukkan Kredit"
+                                                    class="form-control"
+
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col p-3">
+                                        <div class="inpute- mb-3">
+                                            <div class="input-group input-group-outline mb-3">
+                                                <button
+                                                    style="margin-top:32px"
+                                                    type="button"
+                                                    class="rounded-md btn btn-danger border text-white"
+                                                    @click="remove(index)"
+                                                    v-show="index != 0"
+                                                >
+                                                    <i class="material-icons opacity-10">close</i>
+                                                    Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4 mb-4"> Add Post</button>
+                            <button type="submit" class="btn btn-primary mt-4 mb-4"><i class="material-icons opacity-10">save</i> Simpan Transaksi Jurnal Umum</button>
                         </form>
                     </div>
                 </div>
@@ -118,54 +169,87 @@
 
 <script>
 
+import VueMultiselect from 'vue-multiselect'
+
 export default{
     name: "AddPost",
     data() {
         return {
             loggedIn: localStorage.getItem('loggedIn'),
             token: localStorage.getItem('token'),
-            nama : '',
+            uraian : '',
             tanggal:'',
             nomor_bukti:'',
             nomor_rekening:'',
             debit:0,
             kredit:0,
-            saldo:0,
-            error: null
+            error: null,
+            datauraian: [
+                {
+                nama: "",
+                debet: "",
+                kredit: "",
+                },
+            ],
+            selected: null,
+            optionsuraian : []
 
         }
     },
+    created() {
+            this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.get('/api/uraian/selectnama/nama')
+                .then(response => {
+                    this.optionsuraian = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            });
+
+        },
     methods: {
         addPost(e) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.post('/api/posts/add', {
-                    nama : this.nama,
+                    uraian : this.uraian,
                     tanggal : this.tanggal,
                     nomor_bukti : this.nomor_bukti,
                     nomor_rekening : this.nomor_rekening,
-                    debit:this.debit,
-                    kredit:this.kredit,
-                    saldo:this.saldo
+                    data:this.datauraian,
                 })
                 .then(response => {
                     if (response.data.success) {
-                        this.$router.push({name : '/'})
+                        this.$router.push({name : 'home'})
                         // window.location.href = "/posts"
                     } else {
                         this.error = response.data.message
                         document.querySelector('.alert').style.display = 'block'
                     }
-                    // existingObj.strError = "";
-                    // existingObj.strSuccess = response.data.success;
                 })
                 .catch(function(error) {
                     // existingObj.strSuccess ="";
+                    this.error = response.data.message
+
                     // existingObj.strError = error.response.data.message;
                 });
             });
-        }
+        },
+        addMore() {
+        this.datauraian.push({
+            nama: "",
+            debet: "",
+            kredit: "",
+        });
+        },
+        remove(index) {
+        this.datauraian.splice(index, 1);
+        },
 
     },
+        components: {
+            VueMultiselect
+        },
         mounted() {
             if(!this.loggedIn) {
                 window.location.href = "/";

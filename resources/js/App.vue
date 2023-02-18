@@ -42,26 +42,45 @@
             <div :class="{ 'active': isActive, 'bg-gradient-primary':isExactActive}" class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">dashboard</i>
             </div>
-            <span class="nav-link-text ms-1">Dashboard</span>
+            <span class="nav-link-text ms-1">Home</span>
           </router-link>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Data</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Jurnal Umum</h6>
         </li>
         <li class="nav-item">
             <router-link to="/posts" v-slot="{ href, navigate, isActive, isExactActive }" class="nav-link text-white " >
             <div :class="{ 'active': isActive,'bg-gradient-primary':isExactActive}" class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">table_view</i>
+              <i class="material-icons opacity-10">manage_search</i>
             </div>
-            <span class="nav-link-text ms-1">Cari Data</span>
+            <span class="nav-link-text ms-1">Browse Jurnal Umum</span>
           </router-link>
         </li>
         <li class="nav-item">
             <router-link to="/posts/add" v-slot="{ href, navigate, isActive, isExactActive }" class="nav-link text-white " >
             <div :class="{ 'active': isActive,'bg-gradient-primary':isExactActive}" class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">library_add</i>
+            </div>
+            <span class="nav-link-text ms-1">Input Jurnal Umum</span>
+          </router-link>
+        </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Data Uraian</h6>
+        </li>
+        <li class="nav-item">
+            <router-link to="/uraian" v-slot="{ href, navigate, isActive, isExactActive }" class="nav-link text-white " >
+            <div :class="{ 'active': isActive,'bg-gradient-primary':isExactActive}" class="text-white text-center me-2 d-flex align-items-center justify-content-center">
               <i class="material-icons opacity-10">table_view</i>
             </div>
-            <span class="nav-link-text ms-1">Tambah Data</span>
+            <span class="nav-link-text ms-1">Data</span>
+          </router-link>
+        </li>
+        <li class="nav-item">
+            <router-link to="/uraian/add" v-slot="{ href, navigate, isActive, isExactActive }" class="nav-link text-white " >
+            <div :class="{ 'active': isActive,'bg-gradient-primary':isExactActive}" class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="material-icons opacity-10">post_add</i>
+            </div>
+            <span class="nav-link-text ms-1">Input Data</span>
           </router-link>
         </li>
         <!-- <li class="nav-item">
@@ -129,7 +148,7 @@
         <li class="nav-item">
           <a class="nav-link text-white " @click="logout" style="cursor:pointer">
             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="material-icons opacity-10">assignment</i>
+              <i class="material-icons opacity-10">logout</i>
             </div>
             <span class="nav-link-text ms-1">Logout</span>
           </a>

@@ -63,19 +63,6 @@
                     </div>
                     <div class="card-body ">
                         <form @submit.prevent="updatePost" enctype="multipart/form-data">
-
-                            <div class="inpute- mb-3">
-                                <label>Nama</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="nama" type="text" class="form-control" v-model="nama" placeholder="Masukkan Nama">
-                                </div>
-                            </div>
-                            <div class="inpute- mb-3">
-                                <label>Tanggal</label><span class="text-danger"> *</span>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="tanggal" type="date" class="form-control" v-model="tanggal">
-                                </div>
-                            </div>
                             <div class="inpute- mb-3">
                                 <label>Nomor Bukti</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
@@ -89,21 +76,58 @@
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
-                                <label>Debit</label>
+                                <label>Tanggal</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="debit" min="0" type="number" class="form-control" v-model="debit" placeholder="Masukkan Debit">
+                                    <input id="tanggal" type="date" class="form-control" v-model="tanggal">
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
-                                <label>Kredit</label>
+                                <label>Uraian</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
-                                    <input id="kredit" min="0" type="number" class="form-control" v-model="kredit" placeholder="Masukkan Kredit">
+                                    <input id="uraian" type="text" class="form-control" v-model="uraian" placeholder="Masukkan Uraian">
                                 </div>
                             </div>
-                            <div class="inpute- mb-3">
-                                <label>Saldo</label>
-                                <div class="input-group input-group-outline mb-3">
-                                    <input id="saldo" min="0" type="number" class="form-control" v-model="saldo" placeholder="Masukkan Saldo">
+                            <!-- <button
+                                type="button"
+                                class="btn btn-success rounded-md border px-3 py-2 bg-pink-600 text-white"
+                                @click="addMore()"
+                            >
+                                Tambah Rincian
+                            </button> -->
+                            <div v-for="(data, index) in datauraian" :key="index">
+                                <div class="flex justify-start ml-2 mt-4">
+                                    <VueMultiselect
+                                    placeholder="Masukan Nama Uraian"
+                                    v-model="data.nama"
+                                    :options="optionsuraian"
+                                    mode="tags">
+                                        <template #noResult>
+                                        tidak ada data Uraian
+                                        </template>
+                                    </VueMultiselect>
+                                <!-- <input
+                                    v-model="data.nama"
+                                    placeholder="enter you course name"
+                                    class="w-full py-2 px-3 border border-indigo-500 rounded"
+                                /> -->
+                                <input
+                                    v-model="data.debet"
+                                    placeholder="Masukkan Debet"
+                                    class="w-full py-2 px-3 border border-indigo-500 rounded"
+                                />
+                                <input
+                                    v-model="data.kredit"
+                                    placeholder="Masukkan Kredit"
+                                    class="w-full py-2 px-3 border border-indigo-500 rounded"
+                                />
+                                <!-- <button
+                                    type="button"
+                                    class="ml-2 rounded-md border px-3 py-2 bg-red-600 text-white"
+                                    @click="remove(index)"
+                                    v-show="index != 0"
+                                >
+                                    Remove
+                                </button> -->
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary mt-4 mb-4"> Update</button>
@@ -116,38 +140,59 @@
 </template>
 
 <script>
+import VueMultiselect from 'vue-multiselect'
+
 export default{
     data() {
         return {
             loggedIn: localStorage.getItem('loggedIn'),
             token: localStorage.getItem('token'),
-            nama : '',
+            uraian : '',
             tanggal:'',
             nomor_bukti:'',
             nomor_rekening:'',
-            debit:'',
-            kredit:'',
-            saldo:'',
-            error: null
+            debit:0,
+            kredit:0,
+            error: null,
+            datauraian: [
+                {
+                nama: "",
+                debet: "",
+                kredit: "",
+                },
+            ],
+            selected: null,
+            optionsuraian : []
         }
     },
 
+    components: {
+            VueMultiselect
+        },
     created() {
         this.$axios.get('/sanctum/csrf-cookie').then(response => {
             this.$axios.get(`/api/posts/edit/${this.$route.params.id}`)
             .then(response => {
-                this.nama = response.data['nama'];
+                this.uraian = response.data['uraian'];
                 this.tanggal = response.data['tanggal'];
                 this.nomor_bukti = response.data['nomor_bukti'];
                 this.nomor_rekening = response.data['nomor_rekening'];
-                this.debit = response.data['debit'];
-                this.kredit = response.data['kredit'];
-                this.saldo = response.data['saldo'];
+                this.datauraian = JSON.parse(response.data['data']);
+
             })
             .catch(function(error) {
                 console.log(error);
             });
-        })
+        });
+        this.$axios.get('/sanctum/csrf-cookie').then(response => {
+                this.$axios.get('/api/uraian/selectnama/nama')
+                .then(response => {
+                    this.optionsuraian = response.data;
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            });
     },
     methods: {
         // onChange(e) {
@@ -173,19 +218,17 @@ export default{
                 }
 
                 const formData = new FormData();
-                formData.append('nama', this.nama);
                 formData.append('tanggal', this.tanggal);
                 formData.append('nomor_bukti', this.nomor_bukti);
                 formData.append('nomor_rekening', this.nomor_rekening);
-                formData.append('debit', this.debit);
-                formData.append('kredit', this.kredit);
-                formData.append('saldo', this.saldo);
+                formData.append('uraian', this.uraian);
+                formData.append('data', JSON.stringify(this.datauraian));
 
                 this.$axios.post(`/api/posts/update/${this.$route.params.id}`, formData, config)
                 .then(response => {
                     if (response.data.success) {
                         // console.log(response.data);
-                        this.$router.push({name : '/'})
+                        this.$router.push({name : 'home'})
                         // window.location.href = "/posts"
                     } else {
                         this.error = response.data.message

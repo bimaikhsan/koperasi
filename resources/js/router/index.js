@@ -9,6 +9,9 @@ import Posts from '../components/Posts';
 import EditPost from '../components/EditPost';
 import AddPost from '../components/AddPost';
 import LihatPost from '../components/LihatPost';
+import Uraian from '../components/Uraian';
+import AddUraian from '../components/AddUraian';
+import EditUraian from '../components/EditUraian';
 
 export const routes = [
     {
@@ -50,7 +53,22 @@ export const routes = [
         name: 'lihatpost',
         path: '/posts/lihat/:id',
         component: LihatPost
-    }
+    },
+    {
+        name: 'uraian',
+        path: '/uraian',
+        component: Uraian
+    },
+    {
+        name: 'adduraian',
+        path: '/uraian/add',
+        component: AddUraian
+    },
+    {
+        name: 'edituraian',
+        path: '/uraian/edit/:id',
+        component: EditUraian
+    },
 ];
 
 const router = createRouter({

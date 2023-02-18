@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\PostsController;
+use App\Http\Controllers\API\UraianController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,4 +35,14 @@ Route::group(['prefix' => 'posts'], function() {
     Route::get('edit/{id}', [PostsController::class,'edit']);
     Route::delete('delete/{id}', [PostsController::class,'delete']);
     Route::get('selectnama/{nama}', [PostsController::class,'selectname']);
+});
+
+Route::group(['prefix' => 'uraian'], function() {
+    Route::get('/', [UraianController::class,'index']);
+    Route::post('add', [UraianController::class,'add']);
+    Route::post('update/{id}', [UraianController::class,'update']);
+    Route::get('edit/{id}', [UraianController::class,'edit']);
+    Route::delete('delete/{id}', [UraianController::class,'delete']);
+    Route::get('selectnama/{nama}', [UraianController::class,'selectname']);
+
 });

@@ -20,13 +20,11 @@ class PostsController extends Controller
     public function add(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
+            'uraian' => 'required',
             'tanggal' => 'required',
             'nomor_bukti' => 'required',
             'nomor_rekening' => 'required',
-            'debit' => 'required',
-            'kredit' => 'required',
-            'saldo' => 'required',
+            'data' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -34,13 +32,11 @@ class PostsController extends Controller
         }
 
         $user = Buku_besar_umum::create([
-            'nama' => $request->nama,
+            'uraian' => $request->uraian,
             'tanggal' => $request->tanggal,
             'nomor_bukti' => $request->nomor_bukti,
             'nomor_rekening' => $request->nomor_rekening,
-            'debit' => $request->debit,
-            'kredit' => $request->kredit,
-            'saldo' => $request->saldo,
+            'data' => json_encode($request->data),
         ]);
 
         return response()->json([
@@ -60,13 +56,11 @@ class PostsController extends Controller
     {
         $post = Buku_besar_umum::find($id);
         $validator = Validator::make($request->all(), [
-            'nama' => 'required',
+            'uraian' => 'required',
             'tanggal' => 'required',
             'nomor_bukti' => 'required',
             'nomor_rekening' => 'required',
-            'debit' => 'required',
-            'kredit' => 'required',
-            'saldo' => 'required',
+            'data' => 'required',
         ]);
 
         $input = $request->all();
@@ -100,21 +94,53 @@ class PostsController extends Controller
 
     public function cariData(Request $request)
     {
-        $tanggal = $request->tanggal;
+        if($request->tanggal < 10){
+            $tanggal = "0".$request->tanggal;
+        }else{
+            $tanggal = $request->tanggal;
+        }
+        if($request->bulan < 10){
+            $bulan = "0".$request->bulan;
+        }else{
+            $bulan = $request->bulan;
+        }
+        $tahun = $request->tahun;
         $nomor_bukti = $request->nomor_bukti;
         $nomor_rekening = $request->nomor_rekening;
-        if (isset($tanggal) && isset($nomor_bukti) && isset($nomor_rekening)) {
-            $query = Buku_besar_umum::where('tanggal',$tanggal)->where('nomor_bukti',$nomor_bukti)->where('nomor_rekening',$nomor_rekening)->get();
-
-        }elseif(isset($tanggal)){
-            $orderdate = explode('-', $tanggal);
-            $year = $orderdate[0];
-            $month   = $orderdate[1];
-            $day  = $orderdate[2];
-            $textTanggal = $year."-".$month;
-            $query = Buku_besar_umum::where('tanggal','LIKE',"%{$textTanggal}%")->get();
-
+        if (isset($request->tanggal) && isset($request->bulan) && isset($request->tahun) && isset($request->nomor_bukti) && isset($request->nomor_rekening)) {
+            $tanggalFull = $tahun."-".$bulan."-".$tanggal;
+            $query = Buku_besar_umum::where('tanggal',$tanggalFull)->where('nomor_bukti',$nomor_bukti)->where('nomor_rekening',$nomor_rekening)->get();
+        }elseif(isset($request->bulan) && isset($request->tahun) && isset($request->nomor_bukti) && isset($request->nomor_rekening)){
+            $tanggalFull = $tahun."-".$bulan;
+            $query = Buku_besar_umum::where('tanggal','LIKE',"%{$tanggalFull}%")->where('nomor_bukti',$nomor_bukti)->where('nomor_rekening',$nomor_rekening)->get();
+        }elseif(isset($request->nomor_bukti) && isset($request->nomor_rekening) && isset($request->tahun)){
+            $tanggalFull = $tahun;
+            $query = Buku_besar_umum::where('tanggal','LIKE',"%{$tanggalFull}%")->where('nomor_bukti',$nomor_bukti)->where('nomor_rekening',$nomor_rekening)->get();
+        }elseif(isset($request->tanggal) && isset($request->bulan) && isset($request->tahun)){
+            $tanggalFull = $tahun."-".$bulan."-".$tanggal;
+            $query = Buku_besar_umum::where('tanggal',$tanggalFull)->get();
+        }elseif(isset($request->bulan) && isset($request->tahun)){
+            $tanggalFull = $tahun."-".$bulan;
+            $query = Buku_besar_umum::where('tanggal','LIKE',"%{$tanggalFull}%")->get();
+        }elseif(isset($request->tahun)){
+            $tanggalFull = $tahun;
+            $query = Buku_besar_umum::where('tanggal','LIKE',"%{$tanggalFull}%")->get();
         }
+        // $tanggal = $request->tanggal;
+        // $nomor_bukti = $request->nomor_bukti;
+        // $nomor_rekening = $request->nomor_rekening;
+        // if (isset($tanggal) && isset($nomor_bukti) && isset($nomor_rekening)) {
+        //     $query = Buku_besar_umum::where('tanggal',$tanggal)->where('nomor_bukti',$nomor_bukti)->where('nomor_rekening',$nomor_rekening)->get();
+
+        // }elseif(isset($tanggal)){
+        //     $orderdate = explode('-', $tanggal);
+        //     $year = $orderdate[0];
+        //     $month   = $orderdate[1];
+        //     $day  = $orderdate[2];
+        //     $textTanggal = $year."-".$month;
+        //     $query = Buku_besar_umum::where('tanggal','LIKE',"%{$textTanggal}%")->get();
+
+        // }
         // $input = $request->all();
         // $imageName = NULL;
         // if ($image = $request->file('file')) {

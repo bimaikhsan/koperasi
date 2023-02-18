@@ -15,13 +15,11 @@ class CreateBukuUmumBesarTable extends Migration
     {
         Schema::create('buku_umum_besar', function (Blueprint $table) {
             $table->id();
-            $table->char('nama', 100);
+            $table->char('uraian', 100);
+            $table->json('data')->nullable();
             $table->date('tanggal');
             $table->char('nomor_bukti', 100);
             $table->char('nomor_rekening', 100);
-            $table->bigInteger('debit');
-            $table->bigInteger('kredit');
-            $table->bigInteger('saldo');
             $table->timestamps();
         });
     }

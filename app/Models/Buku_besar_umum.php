@@ -10,12 +10,10 @@ class Buku_besar_umum extends Model
     use HasFactory;
     protected $table = "buku_umum_besar";
     protected $fillable = [
-        'nama',
+        'uraian',
         'tanggal',
         'nomor_bukti',
         'nomor_rekening',
-        'debit',
-        'kredit',
-        'saldo'
+        'data',
     ];
 }

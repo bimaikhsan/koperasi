@@ -40,25 +40,75 @@
     </div>
 </div> -->
 <div class="container-fluid py-4">
+
     <div class="row">
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                     <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-white text-capitalize ps-3">Cari Data</h6>
+                        <h6 class="text-white text-capitalize ps-3">Browse Jurnal umum</h6>
                     </div>
                 </div>
                 <div class="card-body ">
                         <form @submit.prevent="cariPost">
-
-                            <div class="inpute- mb-3">
+                            <div class="row">
+                                <div class="col p-3">
+                                    <div class="inpute- mb-3">
+                                        <label>tanggal</label>
+                                        <div class="input-group input-group-outline mb-3">
+                                            <VueMultiselect
+                                                placeholder="Masukkan tanggal"
+                                                v-model="tanggal"
+                                                :options="optionstanggal"
+                                                mode="tags">
+                                                <template #noResult>
+                                                    tidak ada data tanggal
+                                                </template>
+                                            </VueMultiselect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col p-3 text-white">
+                                    <div class="inpute- mb-3">
+                                        <label>Bulan</label>
+                                        <div class="input-group input-group-outline mb-3">
+                                            <VueMultiselect
+                                                placeholder="Masukkan Bulan"
+                                                v-model="bulan"
+                                                :options="optionsbulan"
+                                                mode="tags">
+                                                <template #noResult>
+                                                    tidak ada data Bulan
+                                                </template>
+                                            </VueMultiselect>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col p-3 text-white">
+                                    <div class="inpute- mb-3">
+                                        <label>Tahun</label>
+                                        <div class="input-group input-group-outline mb-3">
+                                            <VueMultiselect
+                                                placeholder="Masukkan Tahun"
+                                                v-model="tahun"
+                                                :options="optionstahun"
+                                                mode="tags">
+                                                <template #noResult>
+                                                    tidak ada data Tahun
+                                                </template>
+                                            </VueMultiselect>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="inpute- mb-3">
                                 <label>Tanggal</label><span class="text-danger"> *</span>
                                 <div class="input-group input-group-outline mb-3">
                                     <input id="tanggal" type="date" class="form-control" v-model="tanggal">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="inpute- mb-3">
-                                <label>Nomor Bukti</label><span class="text-danger"> *</span>
+                                <label>Nomor Bukti</label>
                                 <div class="input-group input-group-outline mb-3">
                                     <VueMultiselect
                                     placeholder="Masukan Nomor Bukti"
@@ -73,7 +123,7 @@
                                 </div>
                             </div>
                             <div class="inpute- mb-3">
-                                <label>Nomor Rekening</label><span class="text-danger"> *</span>
+                                <label>Nomor Rekening</label>
                                 <div class="input-group input-group-outline mb-3">
                                     <VueMultiselect
                                     placeholder="Masukan Nomor Rekening"
@@ -99,26 +149,52 @@
                 </div>
                 <div class="card-body px-0 pb-2" id="hasilpencarian">
                     <div class="table-responsive p-0">
-                        <table class="table align-items-center mb-0">
+                        <table class="table table-responsive align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Author</th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Function</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Status</th>
-                                    <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Employed</th>
-                                    <th class="text-secondary opacity-7"></th>
-                                    <th class="text-secondary opacity-7">Aksi</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">no</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nomor Bukti</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nomor Rekening</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Uraian</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Debet</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">kredit</th>
+                                    <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr v-for="(post, index) in posts" :key="post.id">
                                     <td class="text-center">{{index+1}}.</td>
-                                    <td>{{post.nama}}</td>
-                                    <td>{{post.tanggal}}</td>
-                                    <td>{{post.nomor_bukti}}</td>
-                                    <td>{{post.nomor_rekening}}</td>
+                                    <td class="text-center">{{post.tanggal}}</td>
+                                    <td class="text-center">{{post.nomor_bukti}}</td>
+                                    <td class="text-center">{{post.nomor_rekening}}</td>
+                                    <td class="text-left">
+                                        {{post.uraian}}
+                                        <ul>
+                                            <li v-for="(url, index) in JSON.parse(post.data)" :key="index"><label>{{ JSON.parse(JSON.stringify(url)).nama }}</label></li>
+                                        </ul>
+                                    </td>
+                                    <td class="text-right">
+                                        <ul style="list-style:none;margin-top: 27px;">
+                                            <li v-for="(url, index) in JSON.parse(post.data)" :key="index">
+                                                <label v-if="JSON.parse(JSON.stringify(url)).debet == null">0</label>
+                                                <label v-if="JSON.parse(JSON.stringify(url)).debet != null">{{ JSON.parse(JSON.stringify(url)).debet }}</label>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+                                    <td class="text-right">
+                                        <ul style="list-style:none;margin-top: 27px;">
+                                            <li v-for="(url, index) in JSON.parse(post.data)" :key="index">
+                                                <label v-if="JSON.parse(JSON.stringify(url)).kredit == null">0</label>
+                                                <label v-if="JSON.parse(JSON.stringify(url)).kredit != null">{{ JSON.parse(JSON.stringify(url)).kredit }}</label>
+
+                                            </li>
+                                        </ul>
+                                    </td>
+
                                     <td class="text-center">
-                                        <router-link :to="{name:'lihatpost', params: {id:post.id}}" class="btn btn-primary btn-sm"><i class="material-icons opacity-24">visibility</i></router-link> &nbsp
+                                        <!-- <router-link :to="{name:'lihatpost', params: {id:post.id}}" class="btn btn-primary btn-sm"><i class="material-icons opacity-24">visibility</i></router-link> &nbsp -->
                                         <router-link :to="{name:'editpost', params: {id:post.id}}" class="btn btn-warning btn-sm"><i class="material-icons opacity-24">edit</i></router-link> &nbsp
                                         <button class="btn btn-danger btn-sm" @click="deletePost(post.id)"><i class="material-icons opacity-24">delete</i></button>
                                     </td>
@@ -143,18 +219,31 @@
                 token: localStorage.getItem('token'),
                 posts: [],
                 tanggal : '',
+                bulan : '',
+                tahun : '',
                 nomor_bukti : '',
                 nomor_rekening : '',
                 selected: null,
                 optionsbukti:[],
+                optionstanggal:[],
+                optionsbulan:[],
+                optionstahun:[],
                 optionsrekening:[],
-                // options: ['list', 'of', 'options'],
                 strSuccess: '',
                 strError: ''
             }
         }
         ,
         created() {
+            for (let i = 1; i <= 31; i++) {
+                this.optionstanggal.push(i);
+            }
+            for (let i = 1; i <= 12; i++) {
+                this.optionsbulan.push(i);
+            }
+            for (let i = 1900; i <= 3000; i++) {
+                this.optionstahun.push(i);
+            }
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.get('api/posts/selectnama/nomor_bukti')
                 .then(response => {
@@ -180,13 +269,11 @@
             cariPost(e) {
             this.$axios.get('/sanctum/csrf-cookie').then(response => {
                 this.$axios.post('/api/posts/cari', {
-                    nama : this.nama,
                     tanggal : this.tanggal,
+                    bulan : this.bulan,
+                    tahun : this.tahun,
                     nomor_bukti : this.nomor_bukti,
                     nomor_rekening : this.nomor_rekening,
-                    debit:this.debit,
-                    kredit:this.kredit,
-                    saldo:this.saldo
                 })
                 .then(response => {
                     if (response.data.data) {
